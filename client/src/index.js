@@ -1,19 +1,35 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { createStore, applyMiddleware, compose } from "redux";
 import { thunk } from "redux-thunk";
 
 import reducers from "./reducers";
 
-import App from "./App";
-import "./index.css";
+import Root from "./routes/Root";
+import ErrorPage from "./routes/ErrorPage";
+import Memories from "./routes/Memories";
 
 const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "memories",
+        element: <Memories />,
+      },
+    ],
+  },
+]);
+
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <RouterProvider router={router} />
   </Provider>,
   document.getElementById("root")
 );
