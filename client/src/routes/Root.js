@@ -14,10 +14,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MailIcon from "@material-ui/icons/Mail";
 import MenuIcon from "@material-ui/icons/Menu";
+import PhotoLibrary from "@material-ui/icons/PhotoLibrary";
+import SportsBasketball from "@material-ui/icons/SportsBasketball";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -52,6 +54,18 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  activeLink: {
+    backgroundColor: "#9e9e9e",
+
+    // "& .MuiSvgIcon-root": {
+    //   color: "#FFFFFF",
+    //   stroke: "#FFFFFF",
+    //   fill: "#19ABC0",
+    // },
+  },
+  // outlet: {
+  //   width: `calc(100vw - ${drawerWidth}px)`,
+  // },
 }));
 
 function Root(props) {
@@ -63,6 +77,18 @@ function Root(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const ActiveNavLink = React.forwardRef((props, ref) => (
+    <NavLink
+      ref={ref}
+      {...props}
+      className={({ isActive }) =>
+        `${props.className} ${isActive ? props.activeClassName : ""}`
+      }
+    >
+      {props.children}
+    </NavLink>
+  ));
 
   const drawer = (
     <div>
@@ -78,11 +104,29 @@ function Root(props) {
       </List>
       <Divider />
       <List>
-        <ListItem button key="Memories" component={Link} to="/memories">
+        <ListItem
+          button
+          key="Sports"
+          component={ActiveNavLink}
+          to="/sports"
+          activeClassName={classes.activeLink}
+        >
           <ListItemIcon>
-            <Home />
+            <SportsBasketball />
           </ListItemIcon>
-          <ListItemText primary="memories" />
+          <ListItemText primary="Sports" />
+        </ListItem>
+        <ListItem
+          button
+          key="Memories"
+          component={ActiveNavLink}
+          to="/memories"
+          activeClassName={classes.activeLink}
+        >
+          <ListItemIcon>
+            <PhotoLibrary />
+          </ListItemIcon>
+          <ListItemText primary="Memories" />
         </ListItem>
       </List>
     </div>
@@ -142,7 +186,9 @@ function Root(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Outlet />
+        <div className={classes.outlet}>
+          <Outlet />
+        </div>
       </main>
     </div>
   );

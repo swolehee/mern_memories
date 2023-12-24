@@ -6,10 +6,7 @@ const parser = new Parser();
 export const parse = async (req, res) => {
   try {
     const feed = await parser.parseURL(feedUrl);
-
-    feed.items.forEach((item) => {
-      console.log(`${item.title} - ${item.pubDate}`);
-    });
+    console.log(feed.items);
 
     res.status(200).json(feed.items);
   } catch (error) {

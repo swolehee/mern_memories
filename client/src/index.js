@@ -10,6 +10,7 @@ import reducers from "./reducers";
 import Root from "./routes/Root";
 import ErrorPage from "./routes/ErrorPage";
 import Memories from "./routes/Memories";
+import Sports from "./routes/Sports";
 
 const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "memories",
         element: <Memories />,
+      },
+      {
+        path: "sports",
+        element: <Sports />,
       },
     ],
   },

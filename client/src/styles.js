@@ -54,4 +54,19 @@ export default makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  carouselContainer: {
+    marginLeft: 0,
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(600px - ${drawerWidth}px)`,
+    },
+    [theme.breakpoints.up("md")]: {
+      width: `calc(900px - ${drawerWidth}px)`,
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: `calc(1200px)`,
+    },
+    [theme.breakpoints.up("xl")]: {
+      width: `calc(1536px)`,
+    },
+  },
 }));
