@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const posts_url = process.env.REACT_APP_POSTS_URL;
-const sports_feed_url = "http://localhost:8000/rss";
+const sports_feed_url = process.env.REACT_APP_SPORTS_FEED_URL;
 
 export const fetchPosts = () => axios.get(posts_url);
 export const createPost = (newPost) => axios.post(posts_url, newPost);
