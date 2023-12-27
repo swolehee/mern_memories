@@ -55,7 +55,6 @@ export default makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   carouselContainer: {
-    marginLeft: 0,
     [theme.breakpoints.up("sm")]: {
       width: `calc(600px - ${drawerWidth}px)`,
     },

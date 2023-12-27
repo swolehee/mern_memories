@@ -83,7 +83,7 @@ function Root(props) {
       ref={ref}
       {...props}
       className={({ isActive }) =>
-        `${props.className} ${isActive ? props.activeClassName : ""}`
+        `${props.className} ${isActive ? props.activeclassname : ""}`
       }
     >
       {props.children}
@@ -109,7 +109,7 @@ function Root(props) {
           key="Sports"
           component={ActiveNavLink}
           to="/sports"
-          activeClassName={classes.activeLink}
+          activeclassname={classes.activeLink}
         >
           <ListItemIcon>
             <SportsBasketball />
@@ -121,7 +121,7 @@ function Root(props) {
           key="Memories"
           component={ActiveNavLink}
           to="/memories"
-          activeClassName={classes.activeLink}
+          activeclassname={classes.activeLink}
         >
           <ListItemIcon>
             <PhotoLibrary />

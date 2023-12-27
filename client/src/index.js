@@ -12,7 +12,9 @@ import ErrorPage from "./routes/ErrorPage";
 import Memories from "./routes/Memories";
 import Sports from "./routes/Sports";
 
-const store = createStore(reducers, compose(applyMiddleware(thunk)));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 
 const router = createBrowserRouter([
   {

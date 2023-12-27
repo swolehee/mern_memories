@@ -24,11 +24,21 @@ export default function SportsFeed({ feedItem }) {
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={feedItem.enclosure.url}
-          title={feedItem.title}
-        />
+        {feedItem.enclosure ? (
+          <CardMedia
+            className={classes.media}
+            image={feedItem.enclosure.url}
+            title={feedItem.title}
+          />
+        ) : (
+          <CardMedia
+            className={classes.media}
+            image={
+              "https://a.espncdn.com/i/espn/teamlogos/lrg/trans/espn_dotcom_black.gif"
+            }
+            title={feedItem.title}
+          />
+        )}
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
             {feedItem.title}

@@ -11,3 +11,4 @@ export const deletePost = (id) => axios.delete(`${posts_url}/${id}`);
 export const likePost = (id) => axios.patch(`${posts_url}/${id}/likePost`);
 
 export const getSportsFeed = () => axios.get(sports_feed_url);
+export const getAllSportsFeeds = () => axios.get(`${sports_feed_url}/all`);
