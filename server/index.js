@@ -5,7 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import postRoutes from "./routes/posts.js";
-import rssRoutes from "./routes/rss.js";
+import sportsRoutes from "./routes/sports.js";
 
 const app = express();
 dotenv.config();
@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use("/posts", postRoutes);
-app.use("/rss", rssRoutes);
+app.use("/sports", sportsRoutes);
 
 const PORT = process.env.PORT || 8000;
 
