@@ -71,8 +71,6 @@ const SportsCarousel = ({ sportsFeed }) => {
           slidesToSlide={1}
           swipeable
         >
-          {console.log("hello sports carousel")}
-          {console.log(sportsFeed)}
           {sportsFeed ? (
             sportsFeed.items.map((item) => <SportsFeed feedItem={item} key={item.guid} />)
           ) : (

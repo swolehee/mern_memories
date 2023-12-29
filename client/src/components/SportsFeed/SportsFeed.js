@@ -6,17 +6,13 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import { Dialog } from "@material-ui/core";
+import { CircularProgress, Dialog } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 
 import * as api from "../../api";
 
 import parse from "html-react-parser";
-
-// import JSDOM from "jsdom";
-// import Readability from "@mozilla/readability";
-
 import moment from "moment";
 
 const useStyles = makeStyles({
@@ -34,6 +30,7 @@ export default function SportsFeed({ feedItem }) {
   const [articleContent, setArticleContent] = useState(null);
 
   const handleClickOpen = async () => {
+    console.log(`clicked opening + ${feedItem.link}`);
     setIsArticleIsOpen(true);
     const content = await api.getSportsArticle(feedItem.link);
     setArticleContent(content.data.content);
@@ -42,13 +39,6 @@ export default function SportsFeed({ feedItem }) {
   const handleClose = () => {
     setIsArticleIsOpen(false);
   };
-
-  // const doc = new JSDOM("<body>Look at this cat: <img src='./cat.jpg'></body>", {
-  //   url: feedItem.link,
-  // });
-
-  // const article = new Readability(doc.window.document).parse();
-  // let article = reader.parse();
 
   return (
     <Card className={classes.root}>
@@ -67,6 +57,7 @@ export default function SportsFeed({ feedItem }) {
               "https://a.espncdn.com/i/espn/teamlogos/lrg/trans/espn_dotcom_black.gif"
             }
             title={feedItem.title}
+            onClick={handleClickOpen}
           />
         )}
         <Dialog fullScreen open={isArticleIsOpen} onClose={handleClose}>
@@ -81,7 +72,7 @@ export default function SportsFeed({ feedItem }) {
           <Typography variant="h6" className={classes.title}>
             {feedItem.title}
           </Typography>
-          {parse(`${articleContent}`)}
+          {articleContent ? parse(`${articleContent}`) : <CircularProgress />}
         </Dialog>
 
         <CardContent>

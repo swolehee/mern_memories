@@ -17,8 +17,6 @@ export const getAllSportsFeeds = () => async (dispatch) => {
   try {
     const data = await api.getAllSportsFeeds();
 
-    console.log("returning data.data");
-
     dispatch({ type: GET_ALL_SPORTS_FEEDS, payload: data.data });
   } catch (error) {
     console.log(error);
