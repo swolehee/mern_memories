@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { Link } from "@material-ui/core";
+import { Dialog } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
+
+import * as api from "../../api";
+
+import parse from "html-react-parser";
+
+// import JSDOM from "jsdom";
+// import Readability from "@mozilla/readability";
+
+import moment from "moment";
 
 const useStyles = makeStyles({
   root: {
@@ -20,6 +30,25 @@ const useStyles = makeStyles({
 
 export default function SportsFeed({ feedItem }) {
   const classes = useStyles();
+  const [isArticleIsOpen, setIsArticleIsOpen] = useState(false);
+  const [articleContent, setArticleContent] = useState(null);
+
+  const handleClickOpen = async () => {
+    setIsArticleIsOpen(true);
+    const content = await api.getSportsArticle(feedItem.link);
+    setArticleContent(content.data.content);
+  };
+
+  const handleClose = () => {
+    setIsArticleIsOpen(false);
+  };
+
+  // const doc = new JSDOM("<body>Look at this cat: <img src='./cat.jpg'></body>", {
+  //   url: feedItem.link,
+  // });
+
+  // const article = new Readability(doc.window.document).parse();
+  // let article = reader.parse();
 
   return (
     <Card className={classes.root}>
@@ -29,6 +58,7 @@ export default function SportsFeed({ feedItem }) {
             className={classes.media}
             image={feedItem.enclosure.url}
             title={feedItem.title}
+            onClick={handleClickOpen}
           />
         ) : (
           <CardMedia
@@ -39,17 +69,57 @@ export default function SportsFeed({ feedItem }) {
             title={feedItem.title}
           />
         )}
+        <Dialog fullScreen open={isArticleIsOpen} onClose={handleClose}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            {feedItem.title}
+          </Typography>
+          {parse(`${articleContent}`)}
+        </Dialog>
+
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="textPrimary" component="p">
             {feedItem.title}
           </Typography>
         </CardContent>
       </CardActionArea>
+
       <CardActions>
-        <Button size="small" color="primary">
-          <Link href={feedItem.link}>Link to Article</Link>
-        </Button>
+        <Typography variant="caption" color="textSecondary">
+          {moment(feedItem.isoDate).fromNow()}
+        </Typography>
+        {/* <Button size="small" color="primary">
+          <Link href={feedItem.link}>Link</Link>
+        </Button> */}
       </CardActions>
     </Card>
   );
 }
+
+moment.updateLocale("en", {
+  relativeTime: {
+    future: "in %s",
+    past: "%s ago",
+    s: "a few seconds",
+    ss: "%d seconds",
+    m: "a minute",
+    mm: "%dm",
+    h: "an hour",
+    hh: "%dh",
+    d: "a day",
+    dd: "%dd",
+    w: "a week",
+    ww: "%dwk",
+    M: "a month",
+    MM: "%d mo",
+    y: "a year",
+    yy: "%dyr",
+  },
+});
