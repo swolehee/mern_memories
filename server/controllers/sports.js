@@ -1,5 +1,6 @@
 import Parser from "rss-parser";
-import async from "async";
+import { JSDOM } from "jsdom";
+import { Readability } from "@mozilla/readability";
 
 const nbaFeedUrl = "https://www.espn.com/espn/rss/nba/news";
 const nflFeedUrl = "https://www.espn.com/espn/rss/nfl/news";
@@ -39,6 +40,19 @@ export const parseAllSportsFeeds = async (req, res) => {
     );
 
     res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const parseSportsArticle = async (req, res) => {
+  try {
+    const articleUrl = decodeURIComponent(req.query.url);
+    const doc = await JSDOM.fromURL(articleUrl);
+    const reader = new Readability(doc.window.document);
+    const article = reader.parse();
+    res.status(200).json(article);
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });
