@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 
 import postRoutes from "./routes/posts.js";
 import sportsRoutes from "./routes/sports.js";
+import stocksRoutes from "./routes/stocks.js";
 
 const app = express();
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(cors());
 
 app.use("/posts", postRoutes);
 app.use("/sports", sportsRoutes);
+app.use("/stocks", stocksRoutes);
 
 const PORT = process.env.PORT || 8000;
 
